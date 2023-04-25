@@ -1,2 +1,2 @@
 # Computers
-Basic API for creating and consulting characteristics of several computers. Language used is Golang
+Basic API for creating and consulting characteristics of some computers. Language used is Golang
