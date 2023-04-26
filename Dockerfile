@@ -1,3 +1,5 @@
+#Jus doing a comment from VM of Jenkins
+
 FROM golang:1.20
 
 #RUN go get github.com/gorilla/mux && go get github.com/go-sql-driver/mysql
