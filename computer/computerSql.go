@@ -14,7 +14,7 @@ import (
 )
 
 func CreateConnection() (*sql.DB, error) {
-	connectionString := "root:sskeyBas1212.@tcp(192.168.0.12:3306)/my_computers"
+	connectionString := "root:sskeyBas1212.@tcp(44.195.31.58:3306)/my_computers"
 	db, err := sql.Open("mysql", connectionString)
 	if err != nil {
 		panic(err)
