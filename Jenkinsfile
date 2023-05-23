@@ -19,14 +19,16 @@ pipeline {
         stage('File verification') {
             steps {
                 echo '----------------FILE .tar VERIFICATION---------------'
-                sh 'TAR_DIR=./computers-go.tar
-                    if [ -e $TAR_DIR ]
-                    then
+                sh '''
+                    TAR_DIR=./computers-go.tar
+                    if [ -e $TAR_DIR ]; then
                         rm ./computers-go.tar
-                        echo "-------------.tar FILE HAS BEEN SUCCESFULLY DELETED-"
+                        echo "-------------.tar FILE HAS BEEN SUCCESSFULLY DELETED-"
                     else
-                        echo "-------------.tar FILE DOES NOT EXISTS--------------"
-                    fi'
+                        echo "-------------.tar FILE DOES NOT EXIST--------------"
+                    fi
+                '''
+
                 //sh 'mvn install -DskipTests'
             }
 
