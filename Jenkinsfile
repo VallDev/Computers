@@ -66,14 +66,14 @@ pipeline {
         stage('Rebuilding the image from .tar format') {
             steps {
                 echo '----------------CHANGING .tar FILE TO A DOCKER IMAGE--'
-                sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker load -i computers-go.tar'"
+                sh "ssh andres@192.168.0.10 StrictHostKeyChecking=no 'cd ImagesToRun && docker load -i computers-go.tar'"
             }
         }
 
         stage('Runing Docker Image') {
             steps {
                 echo '---------------RUNING DOCKER IMAGE-------------------'
-                sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 --name computers-go-app -tid computers-go .'"
+                sh "ssh andres@192.168.0.10 StrictHostKeyChecking=no 'cd ImagesToRun && docker run -d -p 8080:8080 --name computers-go-app -tid computers-go .'"
             }
         }
 
