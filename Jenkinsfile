@@ -73,7 +73,7 @@ pipeline {
         stage('Runing Docker Image') {
             steps {
                 echo '---------------RUNING DOCKER IMAGE-------------------'
-                sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 --name computers-go-app:\${BUILD_NUMBER} -tid computers-go .'"
+                sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 computers-go-app:\${BUILD_NUMBER} -tid computers-go .'"
 
             }
         }
