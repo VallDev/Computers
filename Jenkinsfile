@@ -8,30 +8,35 @@ pipeline {
     }*/
 
     stages {
-        stage('Fetch code from Computers Repo') {
-            steps {
-                echo '---------------STARTING PIPELINE---------------------'
-                echo '---------------FETCHING CODE FROM DEV BRANCH---------'
-                git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
+
+        stage('Parallel stage to fetch code and file verification'){
+            parallel{
+                stage('Fetch code from Computers Repo') {
+                    steps {
+                        echo '---------------STARTING PIPELINE---------------------'
+                        echo '---------------FETCHING CODE FROM DEV BRANCH---------'
+                        git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
+                    }
+                }
+
+                stage('File verification') {
+                    steps {
+                        echo '----------------FILE .tar VERIFICATION---------------'
+                        sh '''
+                            TAR_DIR=./computers-go.tar
+                            if [ -e $TAR_DIR ]; then
+                                rm ./computers-go.tar
+                                echo "-------------.tar FILE HAS BEEN SUCCESSFULLY DELETED-"
+                            else
+                                echo "-------------.tar FILE DOES NOT EXIST--------------"
+                            fi
+                        '''
+
+                        //sh 'mvn install -DskipTests'
+                    }
+                }
+
             }
-        }
-
-        stage('File verification') {
-            steps {
-                echo '----------------FILE .tar VERIFICATION---------------'
-                sh '''
-                    TAR_DIR=./computers-go.tar
-                    if [ -e $TAR_DIR ]; then
-                        rm ./computers-go.tar
-                        echo "-------------.tar FILE HAS BEEN SUCCESSFULLY DELETED-"
-                    else
-                        echo "-------------.tar FILE DOES NOT EXIST--------------"
-                    fi
-                '''
-
-                //sh 'mvn install -DskipTests'
-            }
-
             /*post {
                 success {
                     echo 'Now Archiving it...'
@@ -82,7 +87,7 @@ pipeline {
     post{
         always{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
-            discordSend description: 'Jenkins Pipeline Build of Andres', footer: 'Un footer', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+            discordSend description: 'Jenkins Pipeline Build of Andres', footer: 'Un footer', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://media.istockphoto.com/id/1385908726/vector/upgrade-repair-of-desktop-computers-concept-gaming-computer-glow-in-dark-table-glowing.jpg?s=612x612&w=0&k=20&c=_Et2pMe-dRPzafwfsQ2RtOY6gkN4Y4fVHI0e7LuRfVY=' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             echo '---------------FINISHING PIPELINE--------------------'
         }
     }
