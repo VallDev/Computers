@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        PREVIOUS_BUILDN = ${BUILD_NUMBER} - 1
+        PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
     }
 
     stages {
