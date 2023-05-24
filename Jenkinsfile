@@ -7,6 +7,10 @@ pipeline {
         jdk "OracleJDK8"
     }*/
 
+    triggers {
+        scm('*/dev')
+    }
+
     stages {
         stage('Fetch code from Computers Repo') {
             steps {
