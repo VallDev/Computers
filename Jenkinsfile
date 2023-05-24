@@ -2,7 +2,7 @@
 pipeline {
     agent any
 
-    enviroment{
+    enviroment {
         PREVIOUS_BUILDN = ${BUILD_NUMBER} - 1
     }
 
