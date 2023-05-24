@@ -2,10 +2,9 @@
 pipeline {
     agent any
 
-    /*tools {
-        maven "MAVEN3"
-        jdk "OracleJDK8"
-    }*/
+    enviroment{
+        PREVIOUS_BUILDN = ${BUILD_NUMBER} - 1
+    }
 
     stages {
 
@@ -31,26 +30,15 @@ pipeline {
                                 echo "-------------.tar FILE DOES NOT EXIST--------------"
                             fi
                         '''
-
-                        //sh 'mvn install -DskipTests'
                     }
                 }
-
             }
-            /*post {
-                success {
-                    echo 'Now Archiving it...'
-                    */
-                    //archiveArtifacts artifacts: '**/target/*.war'
-            /*    }
-            }*/
         }
 
         stage('Building Go app and Docker image') {
             steps {
                 echo '---------------BUILDING DOCKER IMAGE-----------------'
                 sh 'docker build --network=host -t computers-go:${BUILD_NUMBER} .'
-                //sh 'mvn test'
             }
         }
 
@@ -68,10 +56,24 @@ pipeline {
             }
         }
 
-        stage('Rebuilding the image from .tar format') {
-            steps {
-                echo '----------------CHANGING .tar FILE TO A DOCKER IMAGE--'
-                sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker load -i computers-go.tar'"
+
+        stage('Rebuilding Image, stopping and deleting previous image'){
+            parallel{
+                stage('Stopping and Deleting previous Image') {
+                    steps {
+                        echo '-------------STOPING SERVICE OF PREVIOUS IMAGE--'
+                        sh  ''' ssh andres@192.168.0.10 "cd ImagesToRun && docker stop $(docker ps -q --filter 'ancestor=computers-go:${PREVIOUS_BUILDN}')" '''
+                        echo '-------------DELETING PREVIOUS IMAGE------------'
+                        sh  "ssh andres@192.168.0.10 'cd ImagesToRun && docker image rmi computers-go${PREVIOUS_BUILDN}' " 
+                     }
+                }
+
+                stage('Rebuilding the image from .tar format') {
+                    steps {
+                        echo '----------------CHANGING .tar FILE TO A DOCKER IMAGE--'
+                        sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker load -i computers-go.tar'"
+                    }       
+                }
             }
         }
 
