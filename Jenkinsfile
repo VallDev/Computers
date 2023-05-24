@@ -87,7 +87,7 @@ pipeline {
     post{
         always{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
-            discordSend description: 'Jenkins Pipeline Build of Andres', footer: 'Un footer', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://media.istockphoto.com/id/1385908726/vector/upgrade-repair-of-desktop-computers-concept-gaming-computer-glow-in-dark-table-glowing.jpg?s=612x612&w=0&k=20&c=_Et2pMe-dRPzafwfsQ2RtOY6gkN4Y4fVHI0e7LuRfVY=' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+            discordSend description: 'Computers API Project by Andrés', footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             echo '---------------FINISHING PIPELINE--------------------'
         }
     }
