@@ -82,8 +82,8 @@ pipeline {
     post{
         always{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
-                discordSend description: 'Jenkins Pipeline Build of Andres', footer: 'Un footer', image: '', link: 'env.BUILD_URL', result: 'currentBuild.currentResult', scmWebUrl: '', thumbnail: '', title: 'env.JOB_NAME', webhookURL: 'https://discord.com/api/webhooks/1105616252824731648/dT1ofLIfQVe-Zr5KYMslzrTij-k08lRUyQoD9I1zDqSCbJye7kGQEr3s3lY9nmB1XTcx'
-                echo '---------------FINISHING PIPELINE--------------------'
+            discordSend description: 'Jenkins Pipeline Build of Andres', footer: 'Un footer', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+            echo '---------------FINISHING PIPELINE--------------------'
         }
     }
 }
