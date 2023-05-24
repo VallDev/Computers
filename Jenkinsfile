@@ -7,10 +7,6 @@ pipeline {
         jdk "OracleJDK8"
     }*/
 
-    triggers {
-        githubPush(branch: 'dev')
-    }
-
     stages {
         stage('Fetch code from Computers Repo') {
             steps {
