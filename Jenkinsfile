@@ -8,7 +8,7 @@ pipeline {
     }*/
 
     triggers {
-        scm('*/dev')
+        githubPush(branch: 'dev')
     }
 
     stages {
