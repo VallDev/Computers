@@ -63,9 +63,9 @@ pipeline {
                 stage('Stopping and Deleting previous Image') {
                     steps {
                         echo '-------------GETTING NUMBER OF IMAGE TAG--------'
-                        sh ' ssh andres@192.168.10 "cd ImagesToRun && PREVIOUS_BUILDN=\$(cat ${build-number})" '
+                        sh ' ssh andres@192.168.10 "cd ImagesToRun && PREVIOUS_BUILDN=$(cat build-number)" '
                         echo '-------------STOPING SERVICE OF PREVIOUS IMAGE--'
-                        sh  ''' ssh andres@192.168.0.10 "cd ImagesToRun && docker stop \$(docker ps -q --filter ancestor=computers-go:${PREVIOUS_BUILDN})" '''
+                        sh  ''' ssh andres@192.168.0.10 "cd ImagesToRun && docker stop $(docker ps -q --filter ancestor=computers-go:${PREVIOUS_BUILDN})" '''
                         echo '-------------DELETING PREVIOUS IMAGE------------'
                         sh  "ssh andres@192.168.0.10 'cd ImagesToRun && docker image rmi computers-go${PREVIOUS_BUILDN}' " 
                      }
