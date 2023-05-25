@@ -62,12 +62,12 @@ pipeline {
             parallel{
                 stage('Stopping and Deleting previous Image') {
                     steps {
-                        echo '-------------GETTING NUMBER OF IMAGE TAG--------'
-                        sh " ssh andres@192.168.10 'cd ImagesToRun && ls -la && PREVIOUS_BUILDN=\$(cat build-number) && echo \$PREVIOUS_BUILDN\' "
+                        //echo '-------------GETTING NUMBER OF IMAGE TAG--------'
+                        //sh " ssh andres@192.168.10 'cd ImagesToRun && ls -la && PREVIOUS_BUILDN=\$(cat build-number) && echo \$PREVIOUS_BUILDN\' "
                         echo '-------------STOPING SERVICE OF PREVIOUS IMAGE--'
                         sh  " ssh andres@192.168.0.10 'cd ImagesToRun && docker stop \$(docker ps -q --filter ancestor=computers-go:\$(cat build-number))'" 
                         echo '-------------DELETING PREVIOUS IMAGE------------'
-                        sh  "ssh andres@192.168.0.10 'cd ImagesToRun && docker image rmi computers-go${PREVIOUS_BUILDN}' " 
+                        sh  "ssh andres@192.168.0.10 'cd ImagesToRun && docker image rmi computers-go:\$(cat build-number)' " 
                      }
                 }
 
@@ -84,6 +84,8 @@ pipeline {
             steps {
                 echo '---------------RUNING DOCKER IMAGE-------------------'
                 sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 -t computers-go:${BUILD_NUMBER}'"
+                echo '-------------SAVING NUMBER OF IMAGE TAG----------'
+                sh  "ssh andres@192.168.0.10 'cd ImagesToRun && echo ${BUILD_NUMBER} > build-number' " 
 
             }
         }
