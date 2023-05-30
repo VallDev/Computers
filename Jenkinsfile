@@ -25,6 +25,9 @@ pipeline {
 
                 stage('File verification') {
                     steps {
+                        script {
+                            CURRENT_STAGE = env.STAGE_NAME
+                        }
                         echo '----------------FILE .tar VERIFICATION---------------'
                         sh '''
                             TAR_DIR=./computers-go.tar
@@ -42,6 +45,9 @@ pipeline {
 
         stage('Testing app - Unit testing') {
             steps{
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     def testResult = sh('go test')
@@ -57,6 +63,9 @@ pipeline {
 
         stage('Building Go app and Docker image') {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 echo '---------------BUILDING DOCKER IMAGE-----------------'
                 sh 'docker build --network=host -t computers-go:${BUILD_NUMBER} .'
             }
@@ -64,6 +73,9 @@ pipeline {
 
         stage('Saving Image') {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 echo '---------------SAVING IMAGE IN .tar FILE-------------'
                 sh 'docker save computers-go -o computers-go.tar'
             }
@@ -71,6 +83,9 @@ pipeline {
 
         stage('Deploy in VM') {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 echo '---------------DEPLOYING APP-------------------------'
                 sh 'scp -v -o StrictHostKeyChecking=no computers-go.tar andres@192.168.0.10:/home/andres/ImagesToRun'
             }
@@ -81,6 +96,9 @@ pipeline {
             parallel{
                 stage('Stopping and Deleting previous Image') {
                     steps {
+                        script {
+                            CURRENT_STAGE = env.STAGE_NAME
+                        }
                         //echo '-------------GETTING NUMBER OF IMAGE TAG--------'
                         //sh " ssh andres@192.168.10 'cd ImagesToRun && ls -la && PREVIOUS_BUILDN=\$(cat build-number) && echo \$PREVIOUS_BUILDN\' "
                         echo '-------------STOPING SERVICE OF PREVIOUS IMAGE--'
@@ -92,6 +110,9 @@ pipeline {
 
                 stage('Rebuilding the image from .tar format') {
                     steps {
+                        script {
+                            CURRENT_STAGE = env.STAGE_NAME
+                        }
                         echo '----------------CHANGING .tar FILE TO A DOCKER IMAGE--'
                         sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker load -i computers-go.tar'"
                     }       
@@ -101,6 +122,9 @@ pipeline {
 
         stage('Runing Docker Image and Saving Tag') {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 echo '---------------RUNING DOCKER IMAGE-------------------'
                 sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 -t computers-go:${BUILD_NUMBER}'"
                 echo '-------------SAVING NUMBER OF IMAGE TAG----------'
