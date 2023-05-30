@@ -5,6 +5,7 @@ pipeline {
     environment {
         //PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
         PREVIOUS_BUILDN = "0"
+        CURRENT_STAGE = ""
     }
 
     stages {
@@ -13,6 +14,7 @@ pipeline {
             parallel{
                 stage('Fetch code from Computers Repo') {
                     steps {
+                        CURRENT_STAGE = ${STAGE_NAME}
                         echo '---------------STARTING PIPELINE---------------------'
                         echo '---------------FETCHING CODE FROM DEV BRANCH---------'
                         git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
