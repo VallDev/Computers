@@ -13,8 +13,10 @@ pipeline {
         stage('Parallel stage to fetch code and file verification'){
             parallel{
                 stage('Fetch code from Computers Repo') {
+                    script {
+                        CURRENT_STAGE = env.STAGE_NAME
+                    }
                     steps {
-                        CURRENT_STAGE = ${STAGE_NAME}
                         echo '---------------STARTING PIPELINE---------------------'
                         echo '---------------FETCHING CODE FROM DEV BRANCH---------'
                         git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
