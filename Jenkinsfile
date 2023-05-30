@@ -36,6 +36,23 @@ pipeline {
             }
         }
 
+        stage('Testing app - Unit testing') {
+            steps{
+                echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    sh 'go test'
+                }
+            }
+            post{
+                failure {
+                    // Agregar aquí tu lógica para enviar la notificación en caso de fallo
+                    echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES TEST FAIL'                                                                                                                                             
+                    discordSend description: "Fail in stage: ${STAGE_NAME}", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+                    echo '---------------FINISHING PIPELINE--------------------'
+                }
+            }
+        }
+
         stage('Building Go app and Docker image') {
             steps {
                 echo '---------------BUILDING DOCKER IMAGE-----------------'
@@ -80,7 +97,7 @@ pipeline {
             }
         }
 
-        stage('Runing Docker Image') {
+        stage('Runing Docker Image and Saving Tag') {
             steps {
                 echo '---------------RUNING DOCKER IMAGE-------------------'
                 sh "ssh andres@192.168.0.10 'cd ImagesToRun && docker run -d -p 8080:8080 -t computers-go:${BUILD_NUMBER}'"
@@ -94,7 +111,7 @@ pipeline {
     post{
         always{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
-            discordSend description: 'Computers API Project by Andrés', footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+            discordSend description: "Computers API Project by Andrés -> Fail in stage: ${STAGE_NAME}", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             echo '---------------FINISHING PIPELINE--------------------'
         }
     }

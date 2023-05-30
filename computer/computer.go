@@ -24,7 +24,7 @@ var computer *Computer = &Computer{}
 // var computerAux *Computer = &Computer{}
 var computersAux []*Computer = []*Computer{}
 
-func newEmptyComputer() Computer {
+func NewEmptyComputer() Computer {
 	return Computer{
 		Id:                0,
 		Cpu:               "",
@@ -39,7 +39,7 @@ func newEmptyComputer() Computer {
 	}
 }
 
-func (c Computer) sliceOfStrings() []string {
+func (c Computer) SliceOfStrings() []string {
 	var computersStrings []string
 	computersStrings = append(computersStrings, ("Board: " + c.Board))
 	computersStrings = append(computersStrings, ("CPU: " + c.Cpu))
@@ -54,6 +54,6 @@ func (c Computer) sliceOfStrings() []string {
 	return computersStrings
 }
 
-func (c Computer) toString() string {
-	return strings.Join(c.sliceOfStrings(), "\n")
+func (c Computer) ToString() string {
+	return strings.Join(c.SliceOfStrings(), "\n")
 }

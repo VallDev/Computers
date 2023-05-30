@@ -33,7 +33,7 @@ func CreateConnection() (*sql.DB, error) {
 
 func GetComputerByIdSql(ctx context.Context, db *sql.DB, idc string) error {
 
-	comp := newEmptyComputer()
+	comp := NewEmptyComputer()
 
 	idANum, err := strconv.Atoi(idc)
 	if err != nil {
@@ -82,7 +82,7 @@ func getAllComputers(ctx context.Context, db *sql.DB) error {
 	}
 
 	for rows.Next() {
-		computerAA := newEmptyComputer()
+		computerAA := NewEmptyComputer()
 
 		err = rows.Scan(&computerAA.Id, &computerAA.Cpu, &computerAA.RamAmount, &computerAA.DiskAmount, &computerAA.DiskType, &computerAA.Board, &computerAA.Gpu, &computerAA.OpticDisk, &computerAA.Os, &computerAA.MonitorResolution)
 		if err != nil {

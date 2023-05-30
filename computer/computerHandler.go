@@ -25,7 +25,7 @@ func getComputers(w http.ResponseWriter, r *http.Request, ctx context.Context, d
 		panic(err)
 	}
 	for _, comp := range computers {
-		log.Println(comp.toString())
+		log.Println(comp.ToString())
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(computers)
@@ -45,7 +45,7 @@ func addComputer(w http.ResponseWriter, r *http.Request, ctx context.Context, db
 		panic(err)
 	}
 	fmt.Fprintf(w, "Computer was added")
-	computerString := computer.toString()
+	computerString := computer.ToString()
 	fmt.Fprintf(w, computerString)
 }
 
