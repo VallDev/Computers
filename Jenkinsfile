@@ -38,13 +38,15 @@ pipeline {
 
         stage('Testing app - Unit testing') {
             steps{
-                echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
-                def testResult = sh 'go test'
-                if (testResult == 0) {
-                    echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
-                    // Agregar acciones adicionales en caso de éxito
-                } else {
-                    error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
+                script{
+                    echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
+                    def testResult = sh('go test')
+                    if (testResult == 0) {
+                        echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
+                        // Agregar acciones adicionales en caso de éxito
+                    } else {
+                        error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
+                    }
                 }
             }
         }
