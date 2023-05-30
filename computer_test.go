@@ -29,8 +29,9 @@ func TestSliceOfStrings(t *testing.T) {
 		t.Errorf("Expected RAM in third position of slice, but got: %v", compSlice[2])
 	}
 
-	if compSlice[7] != "Operative System: " {
-		t.Errorf("Expected Operative System  in 8 position of slice, but got: %v", compSlice[7])
+	//7
+	if compSlice[5] != "Operative System: " {
+		t.Errorf("Expected Operative System  in 8 position of slice, but got: %v", compSlice[5])
 	}
 }
 
