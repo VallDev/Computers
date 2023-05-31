@@ -57,10 +57,10 @@ pipeline {
                     echo "${env.TEST_RESULT}"
                     echo "${env.CURRENT_STAGE}"
                     if (env.TEST_RESULT != 0) {
-                        error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                         // Agregar acciones adicionales en caso de éxito
-                    } else {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
+                    } else {
+                        error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                     }
                 }
             }
