@@ -51,7 +51,7 @@ pipeline {
                 }
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
-                    env.TEST_RESULT = sh(returnStatus: true, script: 'go test')    //sh('go test')
+                    env.TEST_RESULT = sh(returnStatus: true, script: "go test")    //sh('go test')
                     //env.TEST_RESULT = testResult
                     echo "-------AQUI TEST_RESULT------"
                     echo "${env.TEST_RESULT}"
