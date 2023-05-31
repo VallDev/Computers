@@ -46,10 +46,12 @@ pipeline {
 
         stage('Testing app - Unit testing') {
             steps{
-                script {
+                /*script {
                     CURRENT_STAGE = env.STAGE_NAME
-                }
+                }*/
+                sh " ---aqui test result -> ${TEST_RESULT}"
                 script{
+                    CURRENT_STAGE = env.STAGE_NAME
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     env.TEST_RESULT = sh(returnStatus: true, script: "go test")   //sh('go test')
                     //env.TEST_RESULT = testResult
@@ -143,6 +145,7 @@ pipeline {
     post{
         
         always{
+            sh " ---aqui test result -> ${TEST_RESULT}"
             script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
             //def testResult = ${TEST_RESULT}
