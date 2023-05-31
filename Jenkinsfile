@@ -51,7 +51,7 @@ pipeline {
                 }
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
-                    def testResult = sh('go test')
+                    def testResult = sh(returnStatus: true, script: 'go test')    //sh('go test')
                     env.TEST_RESULT = testResult
                     if (testResult == 0) {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
