@@ -49,7 +49,7 @@ pipeline {
                 /*script {
                     CURRENT_STAGE = env.STAGE_NAME
                 }*/
-                sh " ---aqui test result -> ${TEST_RESULT}"
+                echo " ---aqui test result -> ${TEST_RESULT}"
                 script{
                     CURRENT_STAGE = env.STAGE_NAME
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
@@ -65,7 +65,7 @@ pipeline {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                     }
                 }
-                sh " ---aqui test result -> ${TEST_RESULT}"
+                echo " ---aqui test result -> ${TEST_RESULT}"
             }
         }
 
@@ -145,7 +145,7 @@ pipeline {
     post{
         
         always{
-            sh " ---aqui test result -> ${TEST_RESULT}"
+            echo " ---aqui test result -> ${TEST_RESULT}"
             script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
             //def testResult = ${TEST_RESULT}
