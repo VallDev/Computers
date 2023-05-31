@@ -53,7 +53,7 @@ pipeline {
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     env.TEST_RESULT = sh(returnStatus: true, script: 'go test')    //sh('go test')
                     //env.TEST_RESULT = testResult
-                    if (env.TEST_RESULT != 1) {
+                    if (env.TEST_RESULT == 0) {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
                         // Agregar acciones adicionales en caso de éxito
                     } else {
@@ -142,7 +142,7 @@ pipeline {
             script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
             //def testResult = ${TEST_RESULT}
-            if (env.TEST_RESULT != 1) {
+            if (env.TEST_RESULT == 0) {
                // echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
                discordSend description: "Computers API Project by Andrés -> Pipeline Succeded", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             } else {
