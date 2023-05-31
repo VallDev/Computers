@@ -6,7 +6,7 @@ pipeline {
         //PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
         PREVIOUS_BUILDN = "0"
         CURRENT_STAGE = ""
-        TEST_RESULT = null
+        TEST_RESULT = 0
     }
 
     stages {
@@ -64,6 +64,9 @@ pipeline {
                     } else {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                     }
+                }
+                script {
+                    TEST_RESULT = testResult
                 }
             }
         }
