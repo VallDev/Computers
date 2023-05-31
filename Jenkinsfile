@@ -53,7 +53,7 @@ pipeline {
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     env.TEST_RESULT = sh(returnStatus: true, script: 'go test')    //sh('go test')
                     //env.TEST_RESULT = testResult
-                    echo "-------AQUI TEST_RESULT ${TEST_RESULT}"
+                    echo "-------AQUI TEST_RESULT env.TEST_RESULT"
                     if (env.TEST_RESULT == 0) {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
                         // Agregar acciones adicionales en caso de éxito
