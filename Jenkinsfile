@@ -52,7 +52,7 @@ pipeline {
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     def testResult = sh(returnStatus: true, script: "go test")
-                    env.TEST_RESULT = testResult
+                    TEST_RESULT = testResult
                     //env.TEST_RESULT = sh(returnStatus: true, script: "go test")   //sh('go test')
                     //env.TEST_RESULT = testResult
                     echo "-------HERE TEST_RESULT VAR------"
