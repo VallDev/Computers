@@ -61,12 +61,11 @@ pipeline {
                     if (testResult == 0) {
                         // Agregar acciones adicionales en caso de éxito
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
+                        TEST_RESULT = 0
                     } else {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
+                        TEST_RESULT = 1
                     }
-                }
-                environment {
-                    TEST_RESULT = testResult
                 }
             }
         }
@@ -149,8 +148,8 @@ pipeline {
         always{
             script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
-            def testResult = env.TEST_RESULT
-            if (testResult == 0) {
+            //def testResult = env.TEST_RESULT
+            if (TEST_RESULT == 0) {
                // echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
                discordSend description: "Computers API Project by Andrés -> Pipeline Succeded", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             } else {
