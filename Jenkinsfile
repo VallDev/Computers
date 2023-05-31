@@ -63,6 +63,7 @@ pipeline {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                     }
                 }
+                sh " ---aqui test result -> ${TEST_RESULT}"
             }
         }
 
