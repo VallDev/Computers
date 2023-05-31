@@ -52,7 +52,7 @@ pipeline {
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     def testResult = sh('go test')
-                    ${TEST_RESULT} = testResult
+                    TEST_RESULT = testResult
                     if (${TEST_RESULT} == 0) {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
                         // Agregar acciones adicionales en caso de éxito
