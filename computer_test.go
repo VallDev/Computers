@@ -30,8 +30,8 @@ func TestSliceOfStrings(t *testing.T) {
 	}
 
 	//7
-	if compSlice[7] != "Operative System: " {
-		t.Errorf("Expected Operative System  in 8 position of slice, but got: %v", compSlice[7])
+	if compSlice[5] != "Operative System: " {
+		t.Errorf("Expected Operative System  in 8 position of slice, but got: %v", compSlice[5])
 	}
 }
 
