@@ -55,6 +55,7 @@ pipeline {
                     //env.TEST_RESULT = testResult
                     echo "-------AQUI TEST_RESULT------"
                     echo env.TEST_RESULT
+                    echo env.CURRENT_STAGE
                     if (env.TEST_RESULT == 0) {
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
                         // Agregar acciones adicionales en caso de éxito
