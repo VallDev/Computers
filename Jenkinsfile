@@ -6,7 +6,7 @@ pipeline {
         //PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
         PREVIOUS_BUILDN = "0"
         CURRENT_STAGE = ""
-        TEST_RESULT = ""
+        TEST_RESULT = 0
     }
 
     stages {
@@ -53,7 +53,7 @@ pipeline {
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     env.TEST_RESULT = sh(returnStatus: true, script: "go test")   //sh('go test')
                     //env.TEST_RESULT = testResult
-                    echo "-------AQUI TEST_RESULT------"
+                    echo "-------HERE TEST_RESULT VAR------"
                     echo "${env.TEST_RESULT}"
                     echo "${env.CURRENT_STAGE}"
                     if (env.TEST_RESULT == 0) {
