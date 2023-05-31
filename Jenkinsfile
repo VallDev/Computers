@@ -65,7 +65,7 @@ pipeline {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
                     }
                 }
-                script {
+                environment {
                     TEST_RESULT = testResult
                 }
             }
