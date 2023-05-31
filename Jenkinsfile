@@ -6,7 +6,7 @@ pipeline {
         //PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
         PREVIOUS_BUILDN = "0"
         CURRENT_STAGE = ""
-        TEST_RESULT = 0
+        TEST_RESULT = null
     }
 
     stages {
