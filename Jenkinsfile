@@ -7,6 +7,10 @@ pipeline {
         PREVIOUS_BUILDN = "0"
         CURRENT_STAGE = ""
         TEST_RESULT = 0
+
+        REGISTRY_CREDENTIAL = "ecr:us-east-1:awscreds"
+        COMPUTER_REGISTRY = "855149291285.dkr.ecr.us-east-1.amazonaws.com/computers-go-img-andres"
+        LINK_REGISTRY = "https://855149291285.dkr.ecr.us-east-1.amazonaws.com"
     }
 
     stages {
@@ -70,7 +74,7 @@ pipeline {
             }
         }
 
-        stage('Building Go app and Docker image') {
+        /*stage('Building Go app and Docker image') {
             steps {
                 script {
                     CURRENT_STAGE = env.STAGE_NAME
@@ -88,9 +92,29 @@ pipeline {
                 echo '---------------SAVING IMAGE IN .tar FILE-------------'
                 sh 'docker save computers-go -o computers-go.tar'
             }
+        }*/
+
+
+        stage('Build Computers Image'){
+            steps{
+                script{
+                    dockerImage = docker.build( COMPUTER_REGISTRY + ":${BUILD_NUMBER}", ".")
+                }
+            }
         }
 
-        stage('Deploy in VM') {
+        stage('Upload Computers Image to ECR') {
+            steps{
+                script {
+                    docker.withRegistry( LINK_REGISTRY, REGISTRY_CREDENTIAL) {
+                        dockerImage.push("${BUILD_NUMBER}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+
+        /*stage('Deploy in VM') {
             steps {
                 script {
                     CURRENT_STAGE = env.STAGE_NAME
@@ -140,7 +164,7 @@ pipeline {
                 sh  "ssh andres@192.168.0.10 'cd ImagesToRun && echo ${BUILD_NUMBER} > build-number' " 
 
             }
-        }
+        }*/
     }
 
     post{
