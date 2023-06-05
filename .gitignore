@@ -17,3 +17,6 @@
 
 # key
 *.pub
+
+# setup
+*.sh
