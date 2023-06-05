@@ -82,16 +82,26 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                  sh '''${scannerHome}/bin/sonar-scanner \
-                    -sonar.projectKey=computer-go-project \
-                    -sonar.projectName=computer-go-project \
-                    -sonar.projectVersion=1.0 \
-                    -sonar.sources=. \
-                    -sonar.tests=. \
-                    -sonar.test.inclusions=**/*_test.go'''
+                    -Dsonar.projectKey=computer-go-project \
+                    -Dsonar.projectName=computer-go-project \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=. \
+                    -Dsonar.tests=. \
+                    -Dsonar.test.inclusions=**/*_test.go'''
                 }
             }       
         }
 
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        
         /*stage('Building Go app and Docker image') {
             steps {
                 script {
