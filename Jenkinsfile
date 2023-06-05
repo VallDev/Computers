@@ -82,12 +82,12 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                  sh '''${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=computer-go-project \
-                    -Dsonar.projectName=computer-go-project \
-                    -Dsonar.projectVersion=1.0 \
-                    -Dsonar.sources=. \
-                    -Dsonar.tests=. \
-                    -Dsonar.test.inclusions=**/*_test.go'''
+                    -sonar.projectKey=computer-go-project \
+                    -sonar.projectName=computer-go-project \
+                    -sonar.projectVersion=1.0 \
+                    -sonar.sources=. \
+                    -sonar.tests=. \
+                    -sonar.test.inclusions=**/*_test.go'''
                 }
             }       
         }
