@@ -74,6 +74,24 @@ pipeline {
             }
         }
 
+
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'sonar4.8'
+            }
+            steps {
+                withSonarQubeEnv('sonar') {
+                 sh '''${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=computer-go-project \
+                    -Dsonar.projectName=computer-go-project \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=. \
+                    -Dsonar.tests=. \
+                    -Dsonar.test.inclusions=**/*_test.go'''
+                }
+            }       
+        }
+
         /*stage('Building Go app and Docker image') {
             steps {
                 script {

@@ -28,3 +28,7 @@ variable "id_public_subnet_1_this_infra" {
 variable "type_instance_medium" {
   default = "t2.medium"
 }
+
+variable "id_public_subnet_2_this_infra" {
+  default = "subnet-0011f7e7294435a70"
+}
