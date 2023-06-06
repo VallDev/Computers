@@ -85,9 +85,7 @@ pipeline {
                     -Dsonar.projectKey=computer-go-project \
                     -Dsonar.projectName=computer-go-project \
                     -Dsonar.projectVersion=1.0 \
-                    -Dsonar.sources=. \
-                    -Dsonar.tests=. \
-                    -Dsonar.test.inclusions=**/*_test.go'''
+                    -Dsonar.sources=.'''
                 }
             }       
         }
