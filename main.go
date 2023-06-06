@@ -52,6 +52,10 @@ func main() {
 	myComputerApi.Shutdown(ctx)
 	log.Println("server stopped")
 
+	log.Println("server stopped")
+	log.Println("server stopped")
+	log.Println("server stopped")
+
 	db.Close()
 }
 
