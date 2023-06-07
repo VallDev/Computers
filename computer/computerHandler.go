@@ -16,7 +16,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Hello there %s", "visitor")
+	fmt.Fprintf(w, "Hello there %s", "visitor --> This was a project for DevOps Project Lab from SoftServe -> by Andrés Vallejo")
 }
 
 func getComputers(w http.ResponseWriter, r *http.Request, ctx context.Context, db *sql.DB) {

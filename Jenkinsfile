@@ -11,6 +11,9 @@ pipeline {
         REGISTRY_CREDENTIAL = "ecr:us-east-1:awscreds"
         COMPUTER_REGISTRY = "855149291285.dkr.ecr.us-east-1.amazonaws.com/computers-dpl-ecr-repo-img-andres"
         LINK_REGISTRY = "https://855149291285.dkr.ecr.us-east-1.amazonaws.com"
+
+        CLUSTER = "COMPUTERS-DPL-FARGATE-CLUSTER"
+        SERVICE = "computersapp"
     }
 
     stages {
@@ -145,6 +148,14 @@ pipeline {
                         dockerImage.push("${BUILD_NUMBER}")
                         dockerImage.push('latest')
                     }
+                }
+            }
+        }
+
+        stage('Deploy to ECS') {
+            steps {
+                withAWS(credentials: 'awscreds', region: 'us-east-1') {
+                sh 'aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE} --force-new-deployment'
                 }
             }
         }
