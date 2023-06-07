@@ -46,8 +46,6 @@ func main() {
 
 	log.Println("server started")
 
-	log.Println("server started")
-	log.Println("server started")
 	//esto espera a que nuestro server reciba una señal
 	<-serverDoneChan
 

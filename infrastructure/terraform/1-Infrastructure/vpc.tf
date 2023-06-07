@@ -122,14 +122,14 @@ resource "aws_route_table_association" "private-subnet-3-association" {
   subnet_id      = aws_subnet.private-subnet-3.id
 }
 
-resource "aws_eip" "elastic-ip-for-nat-gw" {
-  vpc                       = true
-  associate_with_private_ip = "10.0.0.5"
+#resource "aws_eip" "elastic-ip-for-nat-gw" {
+#  vpc                       = true
+#  associate_with_private_ip = "10.0.0.5"
 
-  tags = {
-    Name = "COMPUTERS-DPL-EIP"
-  }
-}
+#  tags = {
+#    Name = "COMPUTERS-DPL-EIP"
+#  }
+#}
 
 #resource "aws_nat_gateway" "nat-gw" {
 #  allocation_id = aws_eip.elastic-ip-for-nat-gw.id

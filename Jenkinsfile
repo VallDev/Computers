@@ -9,7 +9,7 @@ pipeline {
         TEST_RESULT = 0
 
         REGISTRY_CREDENTIAL = "ecr:us-east-1:awscreds"
-        COMPUTER_REGISTRY = "855149291285.dkr.ecr.us-east-1.amazonaws.com/computers-go-img-andres"
+        COMPUTER_REGISTRY = "855149291285.dkr.ecr.us-east-1.amazonaws.com/computers-dpl-ecr-repo-img-andres"
         LINK_REGISTRY = "https://855149291285.dkr.ecr.us-east-1.amazonaws.com"
     }
 
@@ -80,6 +80,10 @@ pipeline {
                 scannerHome = tool 'sonar4.8'
             }
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
+
                 withSonarQubeEnv('sonar') {
                  sh '''${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=computer-go-project \
@@ -94,6 +98,9 @@ pipeline {
 
         stage("Quality Gate") {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 //timeout(time: 1, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't

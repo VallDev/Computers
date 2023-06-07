@@ -5,3 +5,11 @@ output "public_ip_jenkins" {
 output "public_ip_sonar_qube" {
     value = "${aws_instance.ec2-sonar.public_ip}"
 }
+
+output "db_hostname" {
+    value = "${aws_db_instance.computer-db.address}"
+}
+
+output "db_port" {
+    value = "${aws_db_instance.computer-db.port}"
+}

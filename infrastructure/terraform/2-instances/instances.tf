@@ -106,3 +106,58 @@ resource "aws_instance" "ec2-sonar" {
 
   #depends_on = ["aws_key_pair.key-pair"]
 }
+
+resource "aws_security_group" "private-sg" {
+  name        = "COMPUTERS-DPL-PRIVATE-SG"
+  description = "Private Security Group"
+  vpc_id      = var.id_vpc_this_infra
+
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 3306
+    to_port          = 3306
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
+
+resource "aws_db_subnet_group" "computerdb-subnet-group" {
+  name       = "computer dpl db subnet group"
+  subnet_ids = [var.id_private_subnet_1_this_infra, var.id_private_subnet_2_this_infra, var.id_private_subnet_3_this_infra]
+
+  tags = {
+    Name = "COMPUTER-DPL-DB-SUBNET-GROUP"
+  }
+}
+
+resource "aws_db_instance" "computer-db" {
+  identifier             = "computers-dpl-db-rds"
+  instance_class         = var.db_instance_class
+  allocated_storage      = 10
+  engine                 = "mysql"
+  engine_version         = "8.0.32"
+  username               = var.db_username
+  password               = var.db_password
+  db_subnet_group_name   = aws_db_subnet_group.computerdb-subnet-group.name
+  vpc_security_group_ids = [aws_security_group.private-sg.id]
+  publicly_accessible    = false
+  skip_final_snapshot    = true
+}

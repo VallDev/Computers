@@ -32,3 +32,28 @@ variable "type_instance_medium" {
 variable "id_public_subnet_2_this_infra" {
   default = "subnet-0011f7e7294435a70"
 }
+
+variable "id_private_subnet_1_this_infra" {
+  default = "subnet-0ce57c5b40c20a7a6"
+}
+
+variable "id_private_subnet_2_this_infra" {
+  default = "subnet-0b0703c4896147788"
+}
+
+variable "id_private_subnet_3_this_infra" {
+  default = "subnet-0494ffa5ed2d9ae82"
+}
+
+variable "db_instance_class" {
+  default = "db.t2.micro"
+}
+
+variable "db_username" {
+  description = "Username of db"
+}
+
+variable "db_password" {
+  description = "Password of db"
+}
+
