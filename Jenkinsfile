@@ -6,7 +6,7 @@ pipeline {
         //PREVIOUS_BUILDN = "${BUILD_NUMBER.toInteger() - 1}"
         PREVIOUS_BUILDN = "0"
         CURRENT_STAGE = ""
-        TEST_RESULT = 0
+        STAGE_RESULT = 0
 
         REGISTRY_CREDENTIAL = "ecr:us-east-1:awscreds"
         COMPUTER_REGISTRY = "855149291285.dkr.ecr.us-east-1.amazonaws.com/computers-dpl-ecr-repo-img-andres"
@@ -28,6 +28,14 @@ pipeline {
                         echo '---------------STARTING PIPELINE---------------------'
                         echo '---------------FETCHING CODE FROM DEV BRANCH---------'
                         git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
+                    }
+                    post{
+                        succes {
+                            STAGE_RESULT = 0
+                        }
+                        failure {
+                            STAGE_RESULT = 1
+                        }
                     }
                 }
 
@@ -59,19 +67,19 @@ pipeline {
                 script{
                     echo '---------------TESTING GOLANG COMPUTERS APP-----------------'
                     def testResult = sh(returnStatus: true, script: "go test")
-                    env.TEST_RESULT = testResult
+                    env.STAGE_RESULT = testResult
                     //env.TEST_RESULT = sh(returnStatus: true, script: "go test")   //sh('go test')
                     //env.TEST_RESULT = testResult
                     echo "-------HERE TEST_RESULT VAR------"
-                    echo "${env.TEST_RESULT}"
+                    echo "${env.STAGE_RESULT}"
                     echo "${env.CURRENT_STAGE}"
                     if (testResult == 0) {
                         // Agregar acciones adicionales en caso de éxito
                         echo "---------SUCCESS TESTING GOLANG COMPUTERS APP-----------------"
-                        TEST_RESULT = 0
+                        STAGE_RESULT = 0
                     } else {
                         error "---------FAILED TESTING GOLANG COMPUTERS APP-----------------"
-                        TEST_RESULT = 1
+                        STAGE_RESULT = 1
                     }
                 }
             }
@@ -219,7 +227,7 @@ pipeline {
             script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
             //def testResult = env.TEST_RESULT
-            if (TEST_RESULT == 0) {
+            if (STAGE_RESULT == 0) {
                // echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
                discordSend description: "(Pipeline) Computers API Project by Andrés -> Pipeline Succeded or Stopped", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             } else {
