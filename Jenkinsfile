@@ -29,14 +29,6 @@ pipeline {
                         echo '---------------FETCHING CODE FROM DEV BRANCH---------'
                         git branch: 'dev', url: 'https://github.com/VallDev/Computers.git'
                     }
-                    post{
-                        succes {
-                            STAGE_RESULT = 0
-                        }
-                        failure {
-                            STAGE_RESULT = 1
-                        }
-                    }
                 }
 
                 stage('File verification') {
@@ -61,6 +53,12 @@ pipeline {
 
         stage('Testing app - Unit testing') {
             steps{
+                agent {
+                    node {
+                        label 'NODE-MICRO'
+                        customWorkspace '/home/ubuntu/node'
+                    }
+                }
                 script {
                     CURRENT_STAGE = env.STAGE_NAME
                 }
@@ -143,6 +141,9 @@ pipeline {
 
         stage('Build Computers Image'){
             steps{
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 script{
                     dockerImage = docker.build( COMPUTER_REGISTRY + ":${BUILD_NUMBER}", ".")
                 }
@@ -151,6 +152,9 @@ pipeline {
 
         stage('Upload Computers Image to ECR') {
             steps{
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 script {
                     docker.withRegistry( LINK_REGISTRY, REGISTRY_CREDENTIAL) {
                         dockerImage.push("${BUILD_NUMBER}")
@@ -162,6 +166,9 @@ pipeline {
 
         stage('Deploy to ECS') {
             steps {
+                script {
+                    CURRENT_STAGE = env.STAGE_NAME
+                }
                 withAWS(credentials: 'awscreds', region: 'us-east-1') {
                 sh 'aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE} --force-new-deployment'
                 }
@@ -223,8 +230,8 @@ pipeline {
 
     post{
         
-        always{
-            script{
+        //always{
+            /*script{
             echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES' 
             //def testResult = env.TEST_RESULT
             if (STAGE_RESULT == 0) {
@@ -236,10 +243,20 @@ pipeline {
                 //echo "-------AQUI TEST_RESULT ${TEST_RESULT}"
             }
             echo '-------------------------FINISHING PIPELINE-------------'
-        }
+        }*/
            /* echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
             discordSend description: "Computers API Project by Andrés -> Fail in stage: ${CURRENT_STAGE}", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
             echo '---------------FINISHING PIPELINE--------------------'
         */}
+    //}
+
+    succes {
+        echo '-------------SENDING MESSAGE OF SUCCESS TO DISCORD CHANNEL ANDRES'                                                                                                                                             
+        discordSend description: "(Pipeline) Computers API Project by Andrés -> Pipeline Succeded", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
+    }
+
+    failure {
+        echo '-------------SENDING MESSAGE TO DISCORD CHANNEL ANDRES'                                                                                                                                             
+        discordSend description: "(Pipeline) Computers API Project by Andrés -> Fail in stage: ${CURRENT_STAGE}", footer: "Build Number:${BUILD_NUMBER}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, thumbnail:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Desktop_computer_clipart_-_Yellow_theme.svg/220px-Desktop_computer_clipart_-_Yellow_theme.svg.png' , webhookURL: 'https://discord.com/api/webhooks/1111022539993522296/Dyulm13hj0Clo0EBGxKK08Pzglal8GmARld80rXc-opc9O-jC_w_A74Q_rS3QbjtfUjU'
     }
 }

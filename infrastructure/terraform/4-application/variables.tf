@@ -29,3 +29,7 @@ variable "ecs_alb_listener_arn_this_infra" {}
 variable "task_definition_name" {}
 
 variable "aws_alb_target_group_ecs_default_tg_arn_this_infra" {}
+
+variable "ecs_cluster_role_arn_this_infra" {}
+
+variable "ecs_cluster_role_id_this_infra" {}

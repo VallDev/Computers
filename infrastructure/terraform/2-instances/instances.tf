@@ -161,3 +161,19 @@ resource "aws_db_instance" "computer-db" {
   publicly_accessible    = false
   skip_final_snapshot    = true
 }
+
+resource "aws_instance" "ec2-jenkins-node" {
+  ami                         = var.ubuntu_ami
+  instance_type               = var.type_instance_micro
+  subnet_id                   = var.id_public_subnet_3_this_infra
+  key_name                    = aws_key_pair.key-pair.key_name
+  availability_zone           = "us-east-1c"
+  vpc_security_group_ids      = [aws_security_group.public-sg.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "COMPUTERS-DPL-JENKINS-EC2"
+  }
+
+  #depends_on = ["aws_key_pair.key-pair"]
+}

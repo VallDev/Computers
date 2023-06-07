@@ -57,3 +57,10 @@ variable "db_password" {
   description = "Password of db"
 }
 
+variable "type_instance_micro" {
+  default = "t2.micro"
+}
+
+variable "id_public_subnet_3_this_infra" {
+  default = "subnet-0adaccfae70126d92"
+}

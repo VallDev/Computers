@@ -29,3 +29,7 @@ output "ecr_repo_arn" {
 output "aws_alb_target_group_ecs_default_tg_arn" {
   value = aws_alb_target_group.ecs-default-target-group.arn
 }
+
+output "ecs_cluster_role_id" {
+  value = aws_iam_role.ecs-cluster-role.id
+}

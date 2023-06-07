@@ -175,3 +175,5 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-rule" {
 resource "aws_cloudwatch_log_group" "go-app-log-group" {
   name = "${var.ecs_service_name}-LogGroup"
 }
+
+

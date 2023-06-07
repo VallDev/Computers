@@ -110,3 +110,10 @@ resource "aws_ecr_repository" "ecr-repo-app" {
     scan_on_push = false
   }
 }
+
+#resource "aws_iam_role_policy_attachment" "ecs-autoscale-role-policy" {
+#  role = "${aws_iam_role.ecs-cluster-role.id}"
+#  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
+#}
+
+
