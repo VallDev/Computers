@@ -30,7 +30,7 @@ pipeline {
         }
             
         
-        stage('Rebuilding Image, stopping and deleting previous image'){
+        stage('Testing and Code Analysis'){
             parallel{
                 stage('Testing app - Unit testing') {
                     agent {
