@@ -51,13 +51,14 @@ pipeline {
             }
         }
         
-        agent {
-            node {
-                label 'NODE-MICRO'
-                customWorkspace '/home/ubuntu/node'
-            }
-        }
         stage('Testing app - Unit testing') {
+            
+            agent {
+                node {
+                    label 'NODE-MICRO'
+                    customWorkspace '/home/ubuntu/node'
+                }
+            }
             steps{
                 script {
                     CURRENT_STAGE = env.STAGE_NAME
