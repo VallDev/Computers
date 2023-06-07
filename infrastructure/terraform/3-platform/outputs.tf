@@ -25,3 +25,7 @@ output "ecr_repo_url" {
 output "ecr_repo_arn" {
   value = aws_ecr_repository.ecr-repo-app.arn
 }
+
+output "aws_alb_target_group_ecs_default_tg_arn" {
+  value = aws_alb_target_group.ecs-default-target-group.arn
+}

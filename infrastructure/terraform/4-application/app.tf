@@ -26,7 +26,7 @@ data "template_file" "ecs-task-definition-template" {
     ecs_service_name      = "${var.ecs_service_name}"
     docker_image_url      = "${var.docker_image_url}"
     memory                = "${var.memory}"
-    docker_container_port = "${var.docker_contanier_port}"
+    docker_container_port = "${var.docker_container_port}"
     region                = "${var.region}"
   }
 }
@@ -145,7 +145,7 @@ resource "aws_ecs_service" "ecs-service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = ["${var.public_subnet_1_id}", "${public_subnet_2_id}", "${var.public_subnet_3_id}"]
+    subnets          = ["${var.public_subnet_1_id}", "${var.public_subnet_2_id}", "${var.public_subnet_3_id}"]
     security_groups  = ["${aws_security_group.app-security-group.id}"]
     assign_public_ip = true
   }
@@ -165,6 +165,11 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-rule" {
     target_group_arn = aws_alb_target_group.ecs-app-target-group.arn
   }
 
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "go-app-log-group" {

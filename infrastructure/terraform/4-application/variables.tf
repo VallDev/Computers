@@ -27,4 +27,5 @@ variable "public_subnet_3_id" {}
 variable "ecs_alb_listener_arn_this_infra" {}
 
 variable "task_definition_name" {}
-variable "docker_image_url" {}
+
+variable "aws_alb_target_group_ecs_default_tg_arn_this_infra" {}

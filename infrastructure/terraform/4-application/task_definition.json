@@ -4,7 +4,7 @@
         "image": "${docker_image_url}",
         "essential": true,
         "portMappings": [{
-            "containerPort": "${docker_container_port}"
+            "containerPort": ${docker_container_port}
         }],
         "logConfiguration": {
             "logDriver": "awslogs",
